@@ -51,7 +51,7 @@ onMounted(() => {
 					>Bug Name :</label
 				>
 				<input
-					type="email"
+					type="text"
 					class="form-control"
 					id="exampleFormControlInput1"
 					placeholder="Enter Bug Name"
