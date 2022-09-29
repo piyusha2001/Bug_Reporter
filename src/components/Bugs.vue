@@ -69,7 +69,11 @@ onMounted(() => {
 					placeholder="Enter Bug Description"
 					v-model="bugDescription"
 				></textarea>
-				<button class="btn btn-dark button" @click="addBug">
+				<button
+					id="submitbutton"
+					class="btn btn-dark button"
+					@click="addBug"
+				>
 					Submit
 				</button>
 			</div>
@@ -97,12 +101,14 @@ onMounted(() => {
 
 					<div>
 						<button
+							id="resolvebutton"
 							class="btn btn-dark button"
 							@click="bug.resolved = !bug.resolved"
 						>
 							{{ bug.resolved ? 'unresolved' : 'resolved' }}
 						</button>
 						<button
+							id="deletebutton"
 							@click="removeBug(bug)"
 							class="btn btn-dark button"
 						>
