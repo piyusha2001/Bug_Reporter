@@ -1,12 +1,14 @@
 <script setup>
 import { computed } from '@vue/reactivity';
-import { ref } from 'vue';
+import { onMounted, ref, watch } from 'vue';
 
 const bugs = ref([]);
 const bug = ref({
+	id: Math.floor(Math.random() * 1000) + 1,
 	name: '',
 	description: '',
 	resolved: false,
+	bugadded: false,
 });
 
 const bugs_ascending = computed(() => {
@@ -22,42 +24,73 @@ const addBug = () => {
 	} else {
 		bugs.value.push(bug.value);
 		bug.value = {
+			id: Math.floor(Math.random() * 1000) + 1,
 			name: '',
 			description: '',
 			resolved: false,
+			bugadded: true,
 		};
 	}
+	console.log('addBug');
 };
+
+watch(
+	bugs,
+	(newVal) => {
+		localStorage.setItem('bugs', JSON.stringify(newVal));
+	},
+	{ deep: true },
+);
+
+onMounted(() => {
+	if (localStorage.getItem('bugs')) {
+		bugs.value = JSON.parse(localStorage.getItem('bugs'));
+	} else {
+		bugs.value = [];
+	}
+});
 </script>
 <template>
-	<div class="bugdescription center_div">
-		<div class="mb-3">
-			<label for="exampleFormControlInput1" class="form-label"
-				>Bug Name :</label
-			>
-			<input
-				type="email"
-				class="form-control"
-				id="exampleFormControlInput1"
-				placeholder="Enter Bug Name"
-				v-model="bug.name"
-			/>
+	<section class="bugsform">
+		<div class="bugdescription center_div">
+			<div class="mb-3">
+				<label for="exampleFormControlInput1" class="form-label"
+					>Bug Name :</label
+				>
+				<input
+					type="email"
+					class="form-control"
+					id="exampleFormControlInput1"
+					placeholder="Enter Bug Name"
+					v-model="bug.name"
+				/>
+			</div>
+			<div class="mb-3">
+				<label for="exampleFormControlTextarea1" class="form-label"
+					>Bug Description :</label
+				>
+				<textarea
+					class="form-control"
+					id="exampleFormControlTextarea1"
+					rows="3"
+					placeholder="Enter Bug Description"
+					v-model="bug.description"
+				></textarea>
+				<button class="btn btn-dark button" @click="addBug">
+					Submit
+				</button>
+			</div>
 		</div>
-		<div class="mb-3">
-			<label for="exampleFormControlTextarea1" class="form-label"
-				>Bug Description :</label
-			>
-			<textarea
-				class="form-control"
-				id="exampleFormControlTextarea1"
-				rows="3"
-				placeholder="Enter Bug Description"
-				v-model="bug.description"
-			></textarea>
-			<button class="btn btn-dark button" @click="addBug">Submit</button>
+	</section>
+
+	<section class="bugs-list center_div">
+		<div v-if="bug.bugadded">
+			<h3 class="title">Bugs Reported</h3>
 		</div>
-		<a href="" class="linker">See previously submitted BUGS . </a>
-	</div>
+		<div v-else>
+			<h3 class="title"></h3>
+		</div>
+	</section>
 </template>
 
 <style scoped>
@@ -73,10 +106,12 @@ const addBug = () => {
 	margin-top: 1rem;
 	width: 100%;
 }
-
-.linker {
-	margin-top: 1rem;
+.bugs-list {
+	margin-top: 2rem;
+}
+.title {
+	font-size: 1.5rem;
+	font-weight: bold;
 	text-align: center;
-	color: #000;
 }
 </style>
