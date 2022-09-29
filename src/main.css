@@ -1,0 +1,52 @@
+.center_div {
+	margin: 0 auto;
+	width: 40%;
+}
+.form-label {
+	font-size: 1.2rem;
+	font-weight: bold;
+}
+.button {
+	margin-top: 1rem;
+	width: 100%;
+}
+.bugs-list {
+	margin-top: 2rem;
+}
+.title {
+	font-size: 1.5rem;
+	font-weight: bold;
+	text-align: center;
+}
+
+.bugs-list .list {
+	margin: 1rem 0;
+}
+
+.bug-item-details {
+	display: flex;
+	flex-direction: column;
+	margin-top: 1rem;
+}
+
+.bug-item-resolved {
+	display: flex;
+	justify-content: space-between;
+	background-color: rgba(34, 160, 243, 0.1);
+	padding: 1rem;
+	border-radius: 0.5rem;
+	box-shadow: var(--shadow);
+	margin-bottom: 1rem;
+	background-color: #cfffdc;
+}
+
+.bug-item-unresolved {
+	display: flex;
+	justify-content: space-between;
+	background-color: rgba(34, 160, 243, 0.1);
+	padding: 1rem;
+	border-radius: 0.5rem;
+	box-shadow: var(--shadow);
+	margin-bottom: 1rem;
+	background-color: #ffdede;
+}
