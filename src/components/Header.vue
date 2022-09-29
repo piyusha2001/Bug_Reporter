@@ -30,7 +30,8 @@ export default {
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
-	padding: 2.5rem 0;
+	padding-top: 2.5rem;
+	margin: auto;
 }
 .title {
 	font-family: 'Poppins', sans-serif;
@@ -40,8 +41,8 @@ export default {
 }
 .about {
 	font-size: 1.2rem;
-	padding: 1.5rem 0;
-	margin: auto;
+	padding: 1rem 0;
+
 	text-align: center;
 	color: #052d41;
 }
