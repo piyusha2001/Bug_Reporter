@@ -1,0 +1,11 @@
+Test1-->Validating all fields - Passed
+As we are getting the div of unresolved bugs we can say that the submit button is responding to all the validated input fields
+
+Test2-->Invalid inputs - Passed
+As we are getting the error message for the invalid inputs we can say that the submit button is not responding to the invalid inputs
+
+Test3-->Check if bug is resolved - Passed
+As we are getting the div of resolved bugs we can say that the resolve button is working
+
+Test4-->Check if bug is deleted - Passed
+As we are not getting the div of resolved bugs we can say that the delete button is working
