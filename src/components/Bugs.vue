@@ -1,38 +1,17 @@
 <script setup>
 import { computed } from '@vue/reactivity';
+
 import { onMounted, ref, watch } from 'vue';
 
 const bugs = ref([]);
-const bug = ref({
-	id: Math.floor(Math.random() * 1000) + 1,
-	name: '',
-	description: '',
-	resolved: false,
-	bugadded: false,
-});
+const bugName = ref('');
+const bugDescription = ref('');
 
 const bugs_ascending = computed(() => {
 	return bugs.value.sort((a, b) => {
-		return a.name.localeCompare(b.name);
+		return a.createdAt - b.createdAt;
 	});
 });
-
-const addBug = () => {
-	if (bug.value.name === '' || bug.value.description === '') {
-		alert('Please fill out the form');
-		return;
-	} else {
-		bugs.value.push(bug.value);
-		bug.value = {
-			id: Math.floor(Math.random() * 1000) + 1,
-			name: '',
-			description: '',
-			resolved: false,
-			bugadded: true,
-		};
-	}
-	console.log('addBug');
-};
 
 watch(
 	bugs,
@@ -42,12 +21,26 @@ watch(
 	{ deep: true },
 );
 
-onMounted(() => {
-	if (localStorage.getItem('bugs')) {
-		bugs.value = JSON.parse(localStorage.getItem('bugs'));
+const addBug = () => {
+	if (bugName.value.trim === '' || bugDescription.value.trim === '') {
+		alert('Please fill out the form');
+		return;
 	} else {
-		bugs.value = [];
+		bugs.value.push({
+			id: Math.floor(Math.random() * 1000) + 1,
+			name: bugName.value,
+			description: bugDescription.value,
+			resolved: false,
+			bugadded: true,
+			createdAt: new Date().getTime(),
+		});
 	}
+};
+const removeBug = (bug) => {
+	bugs.value = bugs.value.filter((t) => t !== bug);
+};
+onMounted(() => {
+	bugs.value = JSON.parse(localStorage.getItem('bugs')) || [];
 });
 </script>
 <template>
@@ -62,7 +55,7 @@ onMounted(() => {
 					class="form-control"
 					id="exampleFormControlInput1"
 					placeholder="Enter Bug Name"
-					v-model="bug.name"
+					v-model="bugName"
 				/>
 			</div>
 			<div class="mb-3">
@@ -74,7 +67,7 @@ onMounted(() => {
 					id="exampleFormControlTextarea1"
 					rows="3"
 					placeholder="Enter Bug Description"
-					v-model="bug.description"
+					v-model="bugDescription"
 				></textarea>
 				<button class="btn btn-dark button" @click="addBug">
 					Submit
@@ -84,34 +77,40 @@ onMounted(() => {
 	</section>
 
 	<section class="bugs-list center_div">
-		<div v-if="bug.bugadded">
-			<h3 class="title">Bugs Reported</h3>
+		<div v-if="bugs">
+			<h5>
+				Below is your Bug Report List . Mark resolved if bug is solved
+			</h5>
+			<div class="list">
+				<div
+					v-for="bug in bugs_ascending"
+					:class="`bug-item-${
+						bug.resolved ? 'resolved' : 'unresolved'
+					}`"
+				>
+					<div class="bug-item-details">
+						<div class="bug-item__name">
+							<h5>Bug Name :- {{ bug.name }}</h5>
+						</div>
+						<div class="bug-item__description">
+							<h5>Bug Description :- {{ bug.description }}</h5>
+						</div>
+					</div>
+
+					<div>
+						<button
+							class="btn btn-dark button"
+							@click="bug.resolved = !bug.resolved"
+						>
+							{{ bug.resolved ? 'unresolved' : 'resolved' }}
+						</button>
+						<button class="btn btn-dark button">Delete</button>
+					</div>
+				</div>
+			</div>
 		</div>
 		<div v-else>
 			<h3 class="title"></h3>
 		</div>
 	</section>
 </template>
-
-<style scoped>
-.center_div {
-	margin: 0 auto;
-	width: 40%;
-}
-.form-label {
-	font-size: 1.2rem;
-	font-weight: bold;
-}
-.button {
-	margin-top: 1rem;
-	width: 100%;
-}
-.bugs-list {
-	margin-top: 2rem;
-}
-.title {
-	font-size: 1.5rem;
-	font-weight: bold;
-	text-align: center;
-}
-</style>
