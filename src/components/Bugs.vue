@@ -22,7 +22,7 @@ watch(
 );
 
 const addBug = () => {
-	if (bugName.value.trim === '' || bugDescription.value.trim === '') {
+	if (bugName.value === '' || bugDescription.value === '') {
 		alert('Please fill out the form');
 		return;
 	} else {
@@ -77,10 +77,8 @@ onMounted(() => {
 	</section>
 
 	<section class="bugs-list center_div">
-		<div v-if="bugs">
-			<h5>
-				Below is your Bug Report List . Mark resolved if bug is solved
-			</h5>
+		<div v-if="bugs.length != 0">
+			<h5>Mark resolved if the bug is solved --></h5>
 			<div class="list">
 				<div
 					v-for="bug in bugs_ascending"
@@ -90,10 +88,10 @@ onMounted(() => {
 				>
 					<div class="bug-item-details">
 						<div class="bug-item__name">
-							<h5>Bug Name :- {{ bug.name }}</h5>
+							<p>BUG NAME :- {{ bug.name }}</p>
 						</div>
 						<div class="bug-item__description">
-							<h5>Bug Description :- {{ bug.description }}</h5>
+							<p>BUG DESCRIPTION :- {{ bug.description }}</p>
 						</div>
 					</div>
 
@@ -104,7 +102,12 @@ onMounted(() => {
 						>
 							{{ bug.resolved ? 'unresolved' : 'resolved' }}
 						</button>
-						<button class="btn btn-dark button">Delete</button>
+						<button
+							@click="removeBug(bug)"
+							class="btn btn-dark button"
+						>
+							Delete
+						</button>
 					</div>
 				</div>
 			</div>
