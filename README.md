@@ -1,6 +1,6 @@
 # bug-reporter
 
-This template should help get you started developing with Vue 3 in Vite.
+This is a bug reporting web application that tracks the bugs that are reported and allows us to report new bugs to the system. We can resolve or delete a particular bug when it gets solved or is no longer needed .
 
 ## Recommended IDE Setup
 
