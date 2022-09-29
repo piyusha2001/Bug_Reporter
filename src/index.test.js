@@ -1,5 +1,10 @@
 const puppeteer = require('puppeteer');
 
+const { appendFile, writeFile } = require('fs');
+const { promisify } = require('util');
+var os = require('os');
+const writeFileasync = promisify(writeFile);
+
 test('Validating all fields', async () => {
 	browser = await puppeteer.launch({
 		headless: false,
@@ -25,6 +30,20 @@ test('Validating all fields', async () => {
 	expect(successPanel).toBeDefined();
 	jest.setTimeout(30000);
 	await page.screenshot({ path: './src/assets/validinputs.png' });
+	if (successPanel) {
+		await writeFileasync(
+			'./report.txt',
+			'Test1-->Validating all fields - Passed' + os.EOL,
+		);
+		appendFile(
+			'./report.txt',
+			'As we are getting the div of unresolved bugs we can say that the submit button is responding to all the validated input fields' +
+				os.EOL,
+			(err) => {
+				if (err) throw err;
+			},
+		);
+	}
 	await browser.close();
 }, 30000);
 
@@ -43,10 +62,20 @@ test('Invalid inputs', async () => {
 	await page.type('textarea#exampleFormControlTextarea1.form-control', '');
 	await page.click('button#submitbutton');
 	jest.setTimeout(30000);
-	await page.screenshot({
+	const invalidinputss = await page.screenshot({
 		path: './src/assets/invalidinput.png',
 		fullPage: true,
 	});
+	if (invalidinputss) {
+		appendFile(
+			'./report.txt',
+			`Test2-->Invalid inputs - Passed ${os.EOL}As we are getting the error message for the invalid inputs we can say that the submit button is not responding to the invalid inputs` +
+				os.EOL,
+			(err) => {
+				if (err) throw err;
+			},
+		);
+	}
 }, 30000);
 
 //check if bug is resolved
@@ -79,6 +108,16 @@ test('Check if bug is resolved', async () => {
 
 	jest.setTimeout(30000);
 	await page.screenshot({ path: './src/assets/resolvedbug.png' });
+	if (resolvedPanel) {
+		appendFile(
+			'./report.txt',
+			`Test3-->Check if bug is resolved - Passed ${os.EOL}As we are getting the div of resolved bugs we can say that the resolve button is working` +
+				os.EOL,
+			(err) => {
+				if (err) throw err;
+			},
+		);
+	}
 	await browser.close();
 }, 30000);
 
@@ -118,5 +157,15 @@ test('Check if bug is deleted', async () => {
 	expect(deletedPanel).toBeDefined();
 	jest.setTimeout(30000);
 	await page.screenshot({ path: './src/assets/afterdeleting.png' });
+	if (deletedPanel) {
+		appendFile(
+			'./report.txt',
+			`Test4-->Check if bug is deleted - Passed ${os.EOL}As we are not getting the div of resolved bugs we can say that the delete button is working` +
+				os.EOL,
+			(err) => {
+				if (err) throw err;
+			},
+		);
+	}
 	await browser.close();
 }, 30000);
