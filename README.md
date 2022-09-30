@@ -1,6 +1,6 @@
 # Bug-reporter
 
-This is a bug reporting web application made using Vue js that tracks the bugs that are reported and allows us to report new bugs to the system. We can resolve or delete a particular bug when it gets solved or is no longer needed . We have used local storage to manage data . Unit tests for all important functionalities are written using Puppetier jest . After the test script is executed a report.txt file is created asynchronously with the results of the tests .
+This is a bug reporting web application made using Vue js that tracks the bugs that are reported and allows us to report new bugs to the system. We can resolve or delete a particular bug when it gets solved or is no longer needed . We have used local storage to manage data . Unit tests for all important functionalities are written using Puppeteer jest . After the test script is executed a report.txt file is created asynchronously with the results of the tests .
 
 ## Recommended IDE Setup
 
