@@ -34,6 +34,12 @@ npm run build
 npm run lint
 ```
 
+### To run tests
+
+```sh
+jest index
+```
+
 ## Deployed version -
 
 https://bug-reporter.netlify.app/
